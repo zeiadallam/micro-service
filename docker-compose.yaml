@@ -1,0 +1,60 @@
+version: "3.0"
+services:
+
+  mongo-db:
+      image: mongo
+      profiles:
+        - db
+      container_name: mongodb-container
+      ports:
+        - "27017:27017"
+      environment:
+       - MONGO_INITDB_ROOT_USERNAME=admin
+       - MONGO_INITDB_ROOT_PASSWORD=admin
+       - MONGO_INITDB_DATABASE=development
+      volumes:
+        - ./back-up/mongodb-data:/data/db
+
+
+  postgres-db:
+    profiles:
+      - db
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=product-db
+    volumes:
+     - ./back-up/postgres-data:/data/db
+
+
+  order-service:
+#    build: .
+    image: order-service
+    ports:
+      - "8080:8081"
+    profiles:
+      - docker
+    depends_on:
+      - mongo-db
+    environment:
+      spring.data.mongodb.uri: "mongodb://jobUser:job_password@mongo:27017/Job-db"
+
+  product-service:
+    image: product-service
+    profiles:
+      - docker
+    depends_on:
+      - postgres-db
+    ports:
+      - "8080:8082"
+  inventory-service:
+    image: inventory-service
+    profiles:
+      - docker
+    depends_on:
+      - postgres-db
+    ports:
+      - "8080:8083"
