@@ -1,20 +1,15 @@
 package com.pick.productservice.model;
 
 import lombok.Data;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Entity
-@Table(name = "product",
-indexes = {
-        @Index(name ="id",columnList = "id"),
-        @Index(name ="productSerial",columnList = "productSerial",unique = true)
-})
+@Document
+
 public class ProductModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String  id;
     private String productName;
     private String productSerial;
     private int productCount;
