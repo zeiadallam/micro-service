@@ -1,30 +1,29 @@
 package com.pick.orderservice.model;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
+import java.util.Set;
+
 
 @Entity
+@Table(name = "orders")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "order",
-        indexes = {
-                @Index(name ="id",columnList = "id"),
-                @Index(name ="productSerial",columnList = "productSerial",unique = true)
-        })
 public class OrderModel {
     @Id
-    private Long id;
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
+    @Column(length = 36, nullable = false, updatable = false,unique = true)
+    private String orderId;
     private String orderNumber;
     private String productSerial;
     private String productName;
     private String orderUser;
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "order_id", nullable = false)
+
+    private Set<OrderLineItem> orderLineItemList;
 
 
 }

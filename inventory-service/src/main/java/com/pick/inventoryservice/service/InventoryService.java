@@ -1,27 +1,14 @@
 package com.pick.inventoryservice.service;
 
-import com.pick.inventoryservice.model.InventoryModel;
-import com.pick.inventoryservice.repository.InventoryRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.pick.inventoryservice.dto.InventoryDto;
+import com.pick.inventoryservice.dto.InventoryRequest;
 
 import java.util.List;
+import java.util.UUID;
 
-@AllArgsConstructor
-@Service
-public class InventoryService {
-    private final InventoryRepository inventoryRepository;
-
-    public InventoryModel addToInventory(InventoryModel inventoryModel) {
-        InventoryModel model = inventoryRepository.findBySkuCode(inventoryModel.getSkuCode()).orElse(null);
-        if (model == null) {
-            return inventoryRepository.save(inventoryModel);
-        } else {
-            throw new RuntimeException("SkuCode already exist");
-        }
-    }
-    public List<InventoryModel>getAll(){
-        return inventoryRepository.findAll();
-    }
-
+public interface InventoryService {
+    InventoryDto addItemToInventory(InventoryRequest inventoryRequest);
+   InventoryDto getInventoryByUUID(UUID uuid);
+    List<InventoryDto> getInventories();
+    List<InventoryDto> isProductInStock(List<String> skuCodes);
 }

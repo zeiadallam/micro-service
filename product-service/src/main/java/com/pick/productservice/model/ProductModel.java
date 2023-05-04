@@ -5,8 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document
-
+@Document("product")
 public class ProductModel {
     @Id
     private String  id;

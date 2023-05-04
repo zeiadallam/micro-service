@@ -1,22 +1,21 @@
 package com.pick.inventoryservice.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
+import java.util.UUID;
 
 @Entity
-@Table(name = "Inventory",
-indexes = {
-@Index(name ="id",columnList = "id"),
-@Index(name ="skuCode",columnList = "skuCode",unique = true)
-})
+@Table(name = "inventory")
 @Data
 public class InventoryModel {
+
     @Id
-    private Long id;
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
+    @Column(length = 36, nullable = false, updatable = false, unique = true)
+    private UUID id;
     private String inventoryName;
     private int quantity;
     private String skuCode;

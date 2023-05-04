@@ -1,9 +1,9 @@
 package com.pick.orderservice.repository;
 
-import com.pick.orderservice.model.OrderModel;
+import com.pick.orderservice.model.OrderLineItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderRepository extends JpaRepository<OrderModel, String> {
+public interface OrderItemRepository extends JpaRepository<OrderLineItem, String> {
 }
