@@ -5,7 +5,6 @@ import com.pick.orderservice.dto.OrderDto;
 import com.pick.orderservice.dto.OrderLineItemDto;
 import com.pick.orderservice.mapper.OrderMapper;
 import com.pick.orderservice.model.OrderModel;
-import com.pick.orderservice.repository.OrderItemRepository;
 import com.pick.orderservice.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +18,15 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class OrderService {
+public class OrderServiceImpl implements orderService {
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
     private final WebClient webClient;
     private final OrderMapper orderMapper;
 
+    /**
+     * @param orderDto
+     */
+    @Override
     public void placeOrder(OrderDto orderDto) {
         if (isOrderAvailable(orderDto)) {
             OrderModel orderModel = orderMapper.toModel(orderDto);
@@ -41,12 +43,7 @@ public class OrderService {
                                 uriBuilder -> uriBuilder.queryParam("skuCode", skuCodeList).build()).
                         retrieve().bodyToMono(InventoryDto[].class).block();
         log.info("ddgdfgdfg{}", body.length);
-        if (body != null) {
-
-            return Arrays.stream(body).anyMatch(InventoryDto::isInStock);
-
-        }
-        return false;
+        return Arrays.stream(body).anyMatch(InventoryDto::isInStock);
 
     }
 }

@@ -1,9 +1,7 @@
 package com.pick.productservice.controller;
 
 import com.pick.productservice.dto.ProductDto;
-import com.pick.productservice.mapper.ProductMapper;
-import com.pick.productservice.model.ProductModel;
-import com.pick.productservice.service.ProductService;
+import com.pick.productservice.service.ProductServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,23 +11,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/product")
 @AllArgsConstructor
 public class ProductController {
-    private final ProductService productService;
-    private final ProductMapper productMapper;
+    private final ProductServiceImpl productService;
 
     @PostMapping("/add-product")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity addProduct(@RequestBody ProductDto productDto) {
-        ProductModel productModel = productMapper.toModel(productDto);
-        return  ResponseEntity.accepted().body( productMapper.toDto(productService.saveOrder(productModel)));
+        return  ResponseEntity.accepted().body(productService.placeOrder(productDto));
     }
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity getAll() {
-        return  ResponseEntity.accepted().body( productMapper.toDto(productService.getAll()));
+        return  ResponseEntity.accepted().body( productService.getAllProducts());
     }
     @GetMapping("/get-serial")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity getProductBySerial(@RequestParam  String serial) {
-        return  ResponseEntity.accepted().body( productMapper.toDto(productService.getBySerial(serial)));
+        return  ResponseEntity.accepted().body( productService.getProductBySerial(serial));
     }
 }
