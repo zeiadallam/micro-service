@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDto {
+    private String orderId;
     private String orderNumber;
     private String productSerial;
     private String productName;

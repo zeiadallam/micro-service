@@ -14,7 +14,4 @@ public class OrderLineItem {
     @Column(length = 36, nullable = false, updatable = false,unique = true)
     private String id;
     private String skuCode;
-//    @ManyToOne
-//    @JoinColumn(name = "order_id", nullable = false)
-//    private OrderModel order;
 }

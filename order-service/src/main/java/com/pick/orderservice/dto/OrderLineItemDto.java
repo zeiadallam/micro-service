@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class OrderLineItemDto {
+    private String id;
     private String skuCode;
 }

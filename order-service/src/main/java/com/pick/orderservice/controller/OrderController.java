@@ -3,6 +3,7 @@ package com.pick.orderservice.controller;
 import com.pick.orderservice.dto.OrderDto;
 import com.pick.orderservice.service.OrderServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ public class OrderController {
     private final OrderServiceImpl orderService;
 
     @PostMapping("/add-order")
-    public void placeOrder(@RequestBody OrderDto orderDto) {
-        orderService.placeOrder(orderDto);
+    public ResponseEntity placeOrder(@RequestBody OrderDto orderDto) {
+        return ResponseEntity.ok().body(orderService.placeOrder(orderDto));
     }
 }

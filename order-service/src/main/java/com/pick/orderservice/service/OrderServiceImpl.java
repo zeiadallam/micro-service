@@ -27,11 +27,12 @@ public class OrderServiceImpl implements orderService {
      * @param orderDto
      */
     @Override
-    public void placeOrder(OrderDto orderDto) {
+    public OrderDto placeOrder(OrderDto orderDto) {
         if (isOrderAvailable(orderDto)) {
             OrderModel orderModel = orderMapper.toModel(orderDto);
-            orderRepository.save(orderModel);
+            return orderMapper.toDto(orderRepository.save(orderModel));
         }
+        throw new RuntimeException("Produce Not exist");
     }
 
     private boolean isOrderAvailable(OrderDto orderDto) {
@@ -42,6 +43,7 @@ public class OrderServiceImpl implements orderService {
                 webClient.get().uri("http://localhost:8083/api/inventory/product-availability",
                                 uriBuilder -> uriBuilder.queryParam("skuCode", skuCodeList).build()).
                         retrieve().bodyToMono(InventoryDto[].class).block();
+        assert body != null;
         log.info("ddgdfgdfg{}", body.length);
         return Arrays.stream(body).anyMatch(InventoryDto::isInStock);
 
