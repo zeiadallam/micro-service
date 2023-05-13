@@ -20,7 +20,7 @@ public class OrderModel {
     private String productSerial;
     private String productName;
     private String orderUser;
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.PERSIST,orphanRemoval = true)
     @JoinColumn(name = "order_id", nullable = false)
 
     private Set<OrderLineItem> orderLineItemList;

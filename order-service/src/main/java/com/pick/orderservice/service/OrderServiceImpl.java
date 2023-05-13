@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OrderServiceImpl implements orderService {
     private final OrderRepository orderRepository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
     private final OrderMapper orderMapper;
 
     /**
@@ -40,7 +40,7 @@ public class OrderServiceImpl implements orderService {
                 = orderDto.getOrderLineItemList()
                 .stream().map(OrderLineItemDto::getSkuCode).collect(Collectors.toList());
         InventoryDto[] body =
-                webClient.get().uri("http://localhost:8083/api/inventory/product-availability",
+                webClientBuilder.build().get().uri("http://inventory-service/api/inventory/product-availability",
                                 uriBuilder -> uriBuilder.queryParam("skuCode", skuCodeList).build()).
                         retrieve().bodyToMono(InventoryDto[].class).block();
         assert body != null;
