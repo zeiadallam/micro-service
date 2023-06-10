@@ -28,11 +28,11 @@ public class OrderServiceImpl implements orderService {
      */
     @Override
     public OrderDto placeOrder(OrderDto orderDto) {
-        if (isOrderAvailable(orderDto)) {
-            OrderModel orderModel = orderMapper.toModel(orderDto);
-            return orderMapper.toDto(orderRepository.save(orderModel));
-        }
-        throw new RuntimeException("Produce Not exist");
+//        if (isOrderAvailable(orderDto)) {
+        OrderModel orderModel = orderMapper.toModel(orderDto);
+        return orderMapper.toDto(orderRepository.save(orderModel));
+//        }
+//        throw new RuntimeException("Produce Not exist");
     }
 
     private boolean isOrderAvailable(OrderDto orderDto) {
